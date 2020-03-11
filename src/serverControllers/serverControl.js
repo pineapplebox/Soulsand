@@ -52,7 +52,7 @@ io.sockets.on('connection', function (socket) {
 					var serverInfo = currentServerInfo;
 					xmax = serverInfo.ram;
 				 });
-				var mc_server2 = exec('"java" -Xmx' + xmax + 'M -Xms' + xmin + 'M -Dcom.mojang.eula.agree=true -jar ' + server_ver + '.jar nogui', { cwd: path.resolve(process.cwd() + "/servers/" + name + "/" + servername) }, function(err, stdout, stderr) {
+				var mc_server2 = exec('"node" --max-old-space-size=' + xmax + ' ' + server_ver, { cwd: path.resolve(process.cwd() + "/servers/" + name + "/" + servername) }, function(err, stdout, stderr) {
                 if(err){ console.log(err); socket.emit("statusOFF"); return; }   
 				});
 				map.set(servername, mc_server2);
@@ -63,7 +63,7 @@ io.sockets.on('connection', function (socket) {
 			 map.remove(servername);
 			}
         }else{
-		 console.log("server did not have a id for " + name);
+		 console.log("Server did not have a id for " + name);
 		 map.remove(servername);
 		}
     });
